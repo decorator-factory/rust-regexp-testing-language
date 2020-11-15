@@ -40,7 +40,7 @@ pub struct StringPattern(str);
 
 impl Regexp for StringPattern {
     fn detect(&self, test: &str) -> bool {
-        return self.0 == *test;
+        return test.contains(&self.0)
     }
 
     fn find<'t>(&self, haystack: &'t str) -> Option<&'t str> {
