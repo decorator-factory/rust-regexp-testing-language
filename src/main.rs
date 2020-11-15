@@ -54,6 +54,18 @@ impl<'a> Regexp for StringPattern<'a> {
     }
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn detects_works() {
+        let spec = Detects(vec!["banana", "abandon", "kanban"]);
+        let target = StringPattern("ban");
+        assert!(spec.is_test_passing(&target));
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
