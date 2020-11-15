@@ -36,11 +36,11 @@ impl<'a> RegexpSpec<'a> {
     }
 }
 
-pub struct StringPattern(str);
+pub struct StringPattern<'a>(&'a str);
 
-impl Regexp for StringPattern {
+impl<'a> Regexp for StringPattern<'a> {
     fn detect(&self, test: &str) -> bool {
-        return test.contains(&self.0)
+        test.contains(&self.0)
     }
 
     fn find<'t>(&self, haystack: &'t str) -> Option<&'t str> {
