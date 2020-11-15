@@ -1,4 +1,4 @@
-enum RegexpSpec<'a> {
+pub enum RegexpSpec<'a> {
     Detects(Vec<&'a str>),
     DoesNotDetect(Vec<&'a str>),
     InsideFinds(Vec<(&'a str, &'a str)>),
@@ -10,7 +10,7 @@ enum RegexpSpec<'a> {
 
 use RegexpSpec::*;
 
-trait Regexp {
+pub trait Regexp {
     fn detect(&self, test: &str) -> bool;
 
     fn find<'t>(&self, haystack: &'t str) -> Option<&'t str>;
