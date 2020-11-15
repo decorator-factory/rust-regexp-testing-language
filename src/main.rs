@@ -133,6 +133,34 @@ mod tests {
         let target = StringPattern("ban");
         assert!(!spec.is_test_passing(&target));
     }
+
+    #[test]
+    fn replaces_with_validates_replacement_action_performed_by_pattern() {
+        let spec = ReplacesWith {
+            replacer: "foo",
+            cases: vec![
+                ("encapsulation", "enfoosulation"),
+                ("capacity", "fooacity"),
+                ("arcane", "arcane"),
+            ],
+        };
+        let target = StringPattern("cap");
+        assert!(spec.is_test_passing(&target));
+    }
+
+    #[test]
+    fn replaces_with_fails_if_any_replacement_does_not_match_the_spec() {
+        let spec = ReplacesWith {
+            replacer: "foo",
+            cases: vec![
+                ("encapsulation", "enfoosulation"),
+                ("capacity", "banana"),
+                ("arcane", "arcane"),
+            ],
+        };
+        let target = StringPattern("cap");
+        assert!(!spec.is_test_passing(&target));
+    }
 }
 
 fn main() {
