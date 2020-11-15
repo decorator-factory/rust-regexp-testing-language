@@ -36,6 +36,24 @@ impl<'a> RegexpSpec<'a> {
     }
 }
 
+pub struct StringPattern(str);
+
+impl Regexp for StringPattern {
+    fn detect(&self, test: &str) -> bool {
+        return self.0 == *test;
+    }
+
+    fn find<'t>(&self, haystack: &'t str) -> Option<&'t str> {
+        haystack
+            .find(&self.0)
+            .map(|index| &haystack[index..index + self.0.len()])
+    }
+
+    fn replace(&self, input: &str, replacer: &str) -> String {
+        input.replace(&self.0, replacer)
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
