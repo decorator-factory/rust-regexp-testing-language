@@ -176,7 +176,3 @@ mod tests {
         assert!(!spec.is_test_passing(&target));
     }
 }
-
-fn main() {
-    println!("Hello, world!");
-}
