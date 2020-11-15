@@ -85,6 +85,54 @@ mod tests {
         let target = StringPattern("ban");
         assert!(!spec.is_test_passing(&target));
     }
+
+    #[test]
+    fn inside_finds_validates_group_extraction_performed_by_pattern() {
+        let spec = InsideFinds(vec![
+            ("kanban", Some("ban")),
+            ("banana", Some("ban")),
+            ("abandon", Some("ban")),
+            ("branding", None),
+        ]);
+        let target = StringPattern("ban");
+        assert!(spec.is_test_passing(&target));
+    }
+
+    #[test]
+    fn inside_finds_fails_if_wrong_string_is_extracted_in_any_case() {
+        let spec = InsideFinds(vec![
+            ("kanban", Some("kan")),
+            ("banana", Some("ban")),
+            ("abandon", Some("ban")),
+            ("branding", None),
+        ]);
+        let target = StringPattern("ban");
+        assert!(!spec.is_test_passing(&target));
+    }
+
+    #[test]
+    fn inside_finds_fails_if_extraction_fails_unexpectedly() {
+        let spec = InsideFinds(vec![
+            ("kanban", Some("ban")),
+            ("banana", None),
+            ("abandon", Some("ban")),
+            ("branding", None),
+        ]);
+        let target = StringPattern("ban");
+        assert!(!spec.is_test_passing(&target));
+    }
+
+    #[test]
+    fn inside_finds_fails_if_extraction_succeeds_unexpectedly() {
+        let spec = InsideFinds(vec![
+            ("kanban", Some("ban")),
+            ("banana", Some("ban")),
+            ("abandon", Some("ban")),
+            ("branding", Some("ban")),
+        ]);
+        let target = StringPattern("ban");
+        assert!(!spec.is_test_passing(&target));
+    }
 }
 
 fn main() {
