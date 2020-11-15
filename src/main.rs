@@ -1,7 +1,19 @@
+/// RegexpSpec represents a single property test specification for a pattern
 pub enum RegexpSpec<'a> {
+    /// all strings from a vector must get a successfull match
+    /// using the pattern
     Detects(Vec<&'a str>),
+
+    /// all strings from a vector must NOT get a successfull
+    /// match using the pattern
     DoesNotDetect(Vec<&'a str>),
+
+    /// for each tuple `(haystack, needle)`, the pattern must
+    /// find `needle` inside of `haystack`
     InsideFinds(Vec<(&'a str, Option<&'a str>)>),
+
+    /// for each case `(input, output)`, the pattern replaces
+    /// all occurences of itself in `input`, which must result in `output`
     ReplacesWith {
         replacer: &'a str,
         cases: Vec<(&'a str, &'a str)>,
