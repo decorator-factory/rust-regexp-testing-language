@@ -36,6 +36,8 @@ impl<'a> RegexpSpec<'a> {
     }
 }
 
+/// StringPattern is a basic pattern type that represents
+/// matching against a plain string
 pub struct StringPattern<'a>(&'a str);
 
 impl<'a> Regexp for StringPattern<'a> {
