@@ -59,7 +59,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn detects_works() {
+    fn detects_finds_pattern_in_a_list_of_words() {
         let spec = Detects(vec!["banana", "abandon", "kanban"]);
         let target = StringPattern("ban");
         assert!(spec.is_test_passing(&target));
