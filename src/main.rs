@@ -64,6 +64,27 @@ mod tests {
         let target = StringPattern("ban");
         assert!(spec.is_test_passing(&target));
     }
+
+    #[test]
+    fn detects_fails_if_any_example_does_not_match() {
+        let spec = Detects(vec!["banana", "orange", "abandon", "kanban"]);
+        let target = StringPattern("ban");
+        assert!(!spec.is_test_passing(&target));
+    }
+
+    #[test]
+    fn does_not_detect_ensures_none_of_the_strings_pass() {
+        let spec = DoesNotDetect(vec!["bread", "fish", "knife"]);
+        let target = StringPattern("ban");
+        assert!(spec.is_test_passing(&target));
+    }
+
+    #[test]
+    fn does_not_detect_fails_if_any_example_matches() {
+        let spec = DoesNotDetect(vec!["bread", "banana", "fish", "knife"]);
+        let target = StringPattern("ban");
+        assert!(!spec.is_test_passing(&target));
+    }
 }
 
 fn main() {
