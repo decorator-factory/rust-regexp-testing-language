@@ -1,7 +1,7 @@
 pub enum RegexpSpec<'a> {
     Detects(Vec<&'a str>),
     DoesNotDetect(Vec<&'a str>),
-    InsideFinds(Vec<(&'a str, &'a str)>),
+    InsideFinds(Vec<(&'a str, Option<&'a str>)>),
     ReplacesWith {
         replacer: &'a str,
         cases: Vec<(&'a str, &'a str)>,
@@ -27,7 +27,7 @@ impl<'a> RegexpSpec<'a> {
 
             InsideFinds(pairs) => pairs
                 .iter()
-                .all(|(haystack, needle)| target.find(haystack) == Some(needle)),
+                .all(|(haystack, needle)| target.find(haystack) == *needle),
 
             ReplacesWith { replacer, cases } => cases
                 .iter()
