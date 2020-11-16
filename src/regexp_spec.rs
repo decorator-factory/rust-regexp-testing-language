@@ -1,7 +1,7 @@
-use super::traits::Regexp;
+use super::traits::{Regexp, Match};
 
 /// RegexpSpec represents a single property test specification for a pattern
-pub enum RegexpSpec<'a> {
+pub enum RegexpSpec<'a, M: Match<'a>> {
     /// all strings from a vector must get a successfull match
     /// using the pattern
     Detects(Vec<&'a str>),
@@ -12,7 +12,7 @@ pub enum RegexpSpec<'a> {
 
     /// for each tuple `(haystack, needle)`, the pattern must
     /// find `needle` inside of `haystack`
-    InsideFinds(Vec<(&'a str, Option<&'a str>)>),
+    InsideFinds(Vec<(&'a str, M)>),
 
     /// for each case `(input, output)`, the pattern replaces
     /// all occurences of itself in `input`, which must result in `output`
@@ -24,8 +24,8 @@ pub enum RegexpSpec<'a> {
 
 use RegexpSpec::*;
 
-impl<'a> RegexpSpec<'a> {
-    pub fn is_test_passing<R: Regexp>(&self, target: &R) -> bool {
+impl<'a, M: Match<'a>> RegexpSpec<'a, M> {
+    pub fn is_test_passing<R: Regexp<'a, M>>(&self, target: &R) -> bool {
         match self {
             Detects(matches) => matches.iter().all(|test| target.detect(test)),
 
